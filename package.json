@@ -1,0 +1,38 @@
+{
+  "name": "kz-web-ide",
+  "version": "1.0.0",
+  "description": "plugin preview",
+  "main": "index.js",
+  "scripts": {
+    "build:live": "sudo nodemon --exec ts-node -- ./index.ts --port=80"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@www.github.com:yujiaze/kz-web-proxy.git"
+  },
+  "keywords": [
+    "kuaizhan",
+    "plugin",
+    "preview",
+    "without",
+    "pack",
+    "and",
+    "upload"
+  ],
+  "author": "jiazeyu",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.2.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.39",
+    "@types/node": "^7.0.8",
+    "@types/request": "0.0.41",
+    "http-proxy": "^1.16.2",
+    "nodemon": "^1.11.0",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1"
+  }
+}
