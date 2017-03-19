@@ -10,9 +10,9 @@ const to_proxy_url = url => {
 const create_opt = ctx => {
     const default_opt = {
         headers: {
-            ...ctx.request.headers,
+            'Content-Type': ctx.request.headers['content-type'],
             Host: 'www.kuaizhan.com',
-            Referer: "http://www.kuaizhan.com/"
+            Referer: 'http://www.kuaizhan.com/'
 
         },
         encoding: null, //for image return as Buffer
@@ -21,7 +21,7 @@ const create_opt = ctx => {
     }
     return {
         ...default_opt,
-        body: parse_body(ctx),
+        ...parse_body(ctx),
         method: ctx.request.method
     }
 }
@@ -30,25 +30,26 @@ const create_opt = ctx => {
 
 
 const parse_body = ctx => {
-    var body = ctx.request.body;
+    var body = ctx.request.body
     if (body === undefined || body === null) {
-        return undefined;
+        return { body: undefined }
     }
-    var contentType = ctx.request.header['content-type'];
+    var content_type = ctx.request.header['content-type']
+
     if (!Buffer.isBuffer(body) && typeof body !== 'string') {
-        if (contentType && contentType.indexOf('json') !== -1) {
-            body = JSON.stringify(body);
+        if (content_type && content_type.indexOf('form') !== -1) {
+            return { form: body }
         } else {
-            body = body + '';
+            body = JSON.stringify(body)
+            return { body: body }
         }
     }
-    return body;
+    return { body: body }
 }
 
 
 export const request_promise = (url, opt?) => new Promise(
     (resolve, reject) => {
-        console.log(url, opt.method)
         request(
             url,
             opt,
@@ -59,7 +60,7 @@ export const request_promise = (url, opt?) => new Promise(
 
 export default function* (next) {
     var result = yield request_promise(to_proxy_url(this.request.href), create_opt(this))
-    this.body = result.body
     this.type = result.headers['content-type']
+    this.body = result.body
     yield next
 }

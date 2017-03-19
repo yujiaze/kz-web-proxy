@@ -15,18 +15,24 @@ process.argv && process.argv.forEach(
     }
 )
 
-
-
 if (!port) {
     console.error('port must presents')
     process.exit()
 }
 
 import proxyMiddleware from './middleware/request'
+import timeoutMiddleware from './middleware/timeout'
+import * as bodyParserMiddleware from 'koa-bodyparser'
 
-app.use(function* (next){
+app.use(function* (next) {
     yield next
 })
+
+app.use(bodyParserMiddleware({
+    formLimit: '1mb' //page save payload too large 413
+}))
+
+app.use(timeoutMiddleware)
 
 app.use(proxyMiddleware)
 
