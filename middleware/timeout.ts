@@ -1,4 +1,5 @@
 var co = require('co').default
+import logger from '../lib/logger'
 
 export default function* (next) {
     let timeout
@@ -9,7 +10,7 @@ export default function* (next) {
             }).then(() => {
                 clearTimeout(timeout)
                 resolve()
-            }, e => console.log(e))
+            }, e => logger.error(e))
         }),
         new Promise((resolve, reject) => {
             timeout = setTimeout(() => {

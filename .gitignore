@@ -3,3 +3,4 @@ assets/node_modules/*
 public/*
 *.tmp
 dest/%
+npm-debug.log

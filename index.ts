@@ -1,6 +1,6 @@
 import * as Koa from 'koa'
 import * as httpProxy from 'http-proxy'
-
+import logger  from './lib/logger'
 
 var app = new Koa()
 
@@ -16,7 +16,7 @@ process.argv && process.argv.forEach(
 )
 
 if (!port) {
-    console.error('port must presents')
+    logger.error('port must presents')
     process.exit()
 }
 
